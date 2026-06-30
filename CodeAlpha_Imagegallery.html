@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{font-family:Arial;text-align:center;background:#f4f4f4}
+input,button{padding:10px;margin:5px}
+.gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.gallery img{
+width:250px;height:180px;border-radius:10px;
+cursor:pointer;transition:.3s
+}
+.gallery img:hover{transform:scale(1.08)}
+.lightbox{
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.9);
+justify-content:center;align-items:center;flex-direction:column;
+}
+.lightbox img{width:500px;height:350px}
+</style>
+</head>
+<body>
+
+<h1>Image Gallery</h1>
+
+<input id="search" placeholder="Search..." onkeyup="searchImg()">
+
+<div>
+<button onclick="filter('all')">All</button>
+<button onclick="filter('animals')">Animals</button>
+<button onclick="filter('nature')">Nature</button>
+<button onclick="filter('flowers')">Flowers</button>
+</div>
+
+<div class="gallery">
+<!-- Animals -->
+<img src="https://picsum.photos/id/237/300/200" class="animals" onclick="openBox(this)">
+<img src="https://picsum.photos/id/1025/300/200" class="animals" onclick="openBox(this)">
+
+<!-- Nature -->
+<img src="https://picsum.photos/id/1015/300/200" class="nature" onclick="openBox(this)">
+<img src="https://picsum.photos/id/1040/300/200" class="nature" onclick="openBox(this)">
+
+<!-- Flowers -->
+<img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300" class="flowers" onclick="openBox(this)">
+<img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=300" class="flowers" onclick="openBox(this)">
+</div>
+
+<div class="lightbox" id="box">
+<img id="big">
+<div>
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="closeBox()">Close</button>
+</div>
+</div>
+
+<script>
+let imgs=document.querySelectorAll(".gallery img"),i=0;
+
+function filter(c){
+imgs.forEach(x=>x.style.display=(c=="all"||x.classList.contains(c))?"block":"none")
+}
+
+function searchImg(){
+let s=document.getElementById("search").value.toLowerCase();
+imgs.forEach(x=>x.style.display=x.className.includes(s)?"block":"none")
+}
+
+function openBox(img){
+box.style.display="flex";
+big.src=img.src;
+i=[...imgs].indexOf(img)
+}
+
+function closeBox(){box.style.display="none"}
+
+function next(){
+i=(i+1)%imgs.length;
+big.src=imgs[i].src
+}
+
+function prev(){
+i=(i-1+imgs.length)%imgs.length;
+big.src=imgs[i].src
+}
+</script>
+
+</body>
+</html>
